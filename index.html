@@ -16,12 +16,12 @@
             <div class="col-md-6">
                 <div class="pin-generator half-width">
                     <input id="generated-pin-number" class="form-control" type="text">
-                    <button id="generate-pin" class="generate-btn">Generate Pin</button>
+                    <button id="generate-pin" class="generate-btn" onclick="randomPinNumber()">Generate Pin</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-section half-width">
-                    <input id="submit-input" class="form-control" type="text">
+                    <input id="user-input" class="form-control" type="text">
                     <div class="numbers">
                         <div class="calc-body">
                             <div class="calc-button-row">
@@ -53,52 +53,62 @@
                 </div>
             </div>
             <div class="notify-section">
-                <p class="notify">❌ Pin Didn't Match, Please try again</p>
-                <p class="notify">✅ Pin Matched... Secret door is opening for you</p>
+                <p id="not-matched" class="notify">❌ Pin Didn't Match, Please try again</p>
+                <p id="matched" class="notify">✅ Pin Matched... Secret door is opening for you</p>
             </div>
         </div>
 
         <script>
 
 
-            const randomDigit = document.getElementById('generate-pin').addEventListener('click', randomNumber);
+            function randomPinNumber() {
+                const randomDigit = document.getElementById('generate-pin').addEventListener('click', randomNumber());
+                removeMessage();
+            }
+
+            function removeMessage() {
+                document.getElementById('matched').style.display = "none";;
+                document.getElementById('not-matched').style.display = "none";
+                document.getElementById('user-input').value = "";
+            }
 
 
             // Random 4 digit generator
             function randomNumber() {
                 const number = Math.floor(1000 + Math.random() * 9000);
-                console.log(number);
                 document.getElementById('generated-pin-number').value = number;
 
             }
 
             // insert number
             function insert(number) {
-                document.getElementById('submit-input').value = document.getElementById('submit-input').value + number;
+                document.getElementById('user-input').value = document.getElementById('user-input').value + number;
             }
 
             // clear all
             function clearAll() {
-                document.getElementById('submit-input').value = "";
+                document.getElementById('user-input').value = "";
             }
 
             // remove last digit 
             function backspace() {
-                var num = document.getElementById('submit-input').value;
+                var num = document.getElementById('user-input').value;
                 num = num.substring(0, num.length - 1);
-                document.getElementById('submit-input').value = num;
+                document.getElementById('user-input').value = num;
             }
 
             document.getElementById('submit-button').addEventListener('click', match);
 
             function match() {
-
                 const num1 = document.getElementById('generated-pin-number').value;
-                const num2 = document.getElementById('submit-input').value;
+                const num2 = document.getElementById('user-input').value;
                 if (num1 == num2) {
-                    console.log('number match');
+                    const matchedNumber = document.getElementById('matched');
+                    matchedNumber.style.display = "block";
+
                 } else {
-                    console.log('not match');
+                    const matchedNumber = document.getElementById('not-matched');
+                    matchedNumber.style.display = "block";
                 }
             }
 
