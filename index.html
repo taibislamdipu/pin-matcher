@@ -15,8 +15,8 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="pin-generator half-width">
-                    <input id="set-number" class="form-control" type="text">
-                    <button id="generate-number" class="generate-btn">Generate Pin</button>
+                    <input id="generated-pin-number" class="form-control" type="text">
+                    <button id="generate-pin" class="generate-btn">Generate Pin</button>
                 </div>
             </div>
             <div class="col-md-6">
@@ -45,7 +45,7 @@
                                 <div class="button" onclick="clearAll()">AC</div>
                             </div>
                             <div>
-                                <button type="submit" class="submit-btn">Submit</button>
+                                <button id="submit-button" type="submit" class="submit-btn">Submit</button>
                                 <p class="action-left">3 try left</p>
                             </div>
                         </div>
@@ -61,14 +61,14 @@
         <script>
 
 
-            const randomDigit = document.getElementById('generate-number').addEventListener('click', randomNumber);
+            const randomDigit = document.getElementById('generate-pin').addEventListener('click', randomNumber);
 
 
             // Random 4 digit generator
             function randomNumber() {
                 const number = Math.floor(1000 + Math.random() * 9000);
                 console.log(number);
-                document.getElementById('set-number').value = number;
+                document.getElementById('generated-pin-number').value = number;
 
             }
 
@@ -82,13 +82,25 @@
                 document.getElementById('submit-input').value = "";
             }
 
+            // remove last digit 
             function backspace() {
                 var num = document.getElementById('submit-input').value;
                 num = num.substring(0, num.length - 1);
                 document.getElementById('submit-input').value = num;
             }
 
+            document.getElementById('submit-button').addEventListener('click', match);
 
+            function match() {
+
+                const num1 = document.getElementById('generated-pin-number').value;
+                const num2 = document.getElementById('submit-input').value;
+                if (num1 == num2) {
+                    console.log('number match');
+                } else {
+                    console.log('not match');
+                }
+            }
 
         </script>
 </body>
