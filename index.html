@@ -42,11 +42,11 @@
                             <div class="calc-button-row">
                                 <div class="button" onclick="backspace()"> C </div>
                                 <div class="button" onclick="insert(0)">0</div>
-                                <div class="button" onclick="clearAll()">AC</div>
+                                <div class="button" onclick="clearAll(), removeMessage()">AC</div>
                             </div>
                             <div>
                                 <button id="submit-button" type="submit" class="submit-btn">Submit</button>
-                                <p class="action-left">3 try left</p>
+                                <p class="action-left"><span id="count-number">3</span> try left</p>
                             </div>
                         </div>
                     </div>
@@ -59,6 +59,21 @@
         </div>
 
         <script>
+
+            function match() {
+                const generatedNumber = document.getElementById('generated-pin-number').value;
+                const userInputNumber = document.getElementById('user-input').value;
+                if (generatedNumber == userInputNumber) {
+                    const matchedNumber = document.getElementById('matched');
+                    matchedNumber.style.display = "block";
+
+                } else {
+                    const matchedNumber = document.getElementById('not-matched');
+                    matchedNumber.style.display = "block";
+                    chanceLeft();
+                }
+            }
+            document.getElementById('submit-button').addEventListener('click', match);
 
 
             function randomPinNumber() {
@@ -92,25 +107,26 @@
 
             // remove last digit 
             function backspace() {
-                var num = document.getElementById('user-input').value;
-                num = num.substring(0, num.length - 1);
-                document.getElementById('user-input').value = num;
+                var number = document.getElementById('user-input').value;
+                number = number.substring(0, number.length - 1);
+                document.getElementById('user-input').value = number;
             }
 
-            document.getElementById('submit-button').addEventListener('click', match);
-
-            function match() {
-                const num1 = document.getElementById('generated-pin-number').value;
-                const num2 = document.getElementById('user-input').value;
-                if (num1 == num2) {
-                    const matchedNumber = document.getElementById('matched');
-                    matchedNumber.style.display = "block";
-
-                } else {
-                    const matchedNumber = document.getElementById('not-matched');
-                    matchedNumber.style.display = "block";
+            function chanceLeft() {
+                var counter = document.getElementById('count-number').innerText;
+                var count = parseInt(counter);
+                const generatedNumber = document.getElementById('generated-pin-number').value;
+                const userInputNumber = document.getElementById('user-input').value;
+                if (generatedNumber != userInputNumber) {
+                    document.getElementById('count-number').innerText = --counter;
                 }
+                if (counter == 0) {
+                    document.getElementById("submit-button").disabled = true;
+                    alert('You Lost All 3 Chances. Reload The Page For Try Again.')
+                }
+
             }
+
 
         </script>
 </body>
