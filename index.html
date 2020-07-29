@@ -15,120 +15,136 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="pin-generator half-width">
-                    <input id="generated-pin-number" class="form-control" type="text">
-                    <button id="generate-pin" class="generate-btn" onclick="randomPinNumber()">Generate Pin</button>
+                    <input id="generated-pin-number" class="form-control" type="text" placeholder="Click Generate Pin">
+                    <button id="generate-pin" class="generate-btn btn" onclick="randomPinNumber()">Generate Pin</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-section half-width">
-                    <input id="user-input" class="form-control" type="text">
+                    <input id="user-input" class="form-control" type="text" placeholder="Enter 4-digit code">
                     <div class="numbers">
                         <div class="calc-body">
                             <div class="calc-button-row">
-                                <div class="button" onclick="insert(7)">7</div>
-                                <div class="button" onclick="insert(8)">8</div>
-                                <div class="button" onclick="insert(9)">9</div>
+                                <div class="button btn" onclick="insert(7)">7</div>
+                                <div class="button btn" onclick="insert(8)">8</div>
+                                <div class="button btn" onclick="insert(9)">9</div>
                             </div>
                             <div class="calc-button-row">
-                                <div class="button" onclick="insert(4)">4</div>
-                                <div class="button" onclick="insert(5)">5</div>
-                                <div class="button" onclick="insert(6)">6</div>
+                                <div class="button btn" onclick="insert(4)">4</div>
+                                <div class="button btn" onclick="insert(5)">5</div>
+                                <div class="button btn" onclick="insert(6)">6</div>
                             </div>
                             <div class="calc-button-row">
-                                <div class="button" onclick="insert(1)">1</div>
-                                <div class="button" onclick="insert(2)">2</div>
-                                <div class="button" onclick="insert(3)">3</div>
+                                <div class="button btn" onclick="insert(1)">1</div>
+                                <div class="button btn" onclick="insert(2)">2</div>
+                                <div class="button btn" onclick="insert(3)">3</div>
                             </div>
                             <div class="calc-button-row">
-                                <div class="button" onclick="backspace()"> C </div>
-                                <div class="button" onclick="insert(0)">0</div>
-                                <div class="button" onclick="clearAll(), removeMessage()">AC</div>
-                            </div>
-                            <div>
-                                <button id="submit-button" type="submit" class="submit-btn">Submit</button>
-                                <p class="action-left"><span id="count-number">3</span> try left</p>
+                                <div class="button btn bg-info" onclick="backspace()">
+                                    < </div>
+                                        <div class="button btn" onclick="insert(0)">0</div>
+                                        <div class="button btn bg-info" onclick="clearAll()">AC</div>
+                                </div>
+                                <div>
+                                    <button id="submit-button" type="submit" class="submit-btn btn">Submit</button>
+                                    <p class="action-left" title="You can try only 3 times"><span
+                                            id="count-number">3</span>
+                                        try left</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="notify-section">
+                    <p id="not-matched" class="notify">❌ Pin Didn't Match, Please try again</p>
+                    <p id="matched" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+                </div>
             </div>
-            <div class="notify-section">
-                <p id="not-matched" class="notify">❌ Pin Didn't Match, Please try again</p>
-                <p id="matched" class="notify">✅ Pin Matched... Secret door is opening for you</p>
-            </div>
-        </div>
 
-        <script>
+            <script>
 
-            function match() {
-                const generatedNumber = document.getElementById('generated-pin-number').value;
-                const userInputNumber = document.getElementById('user-input').value;
-                if (generatedNumber == userInputNumber) {
-                    const matchedNumber = document.getElementById('matched');
-                    matchedNumber.style.display = "block";
+                function match() {
+                    const generatedNumber = document.getElementById('generated-pin-number').value;
+                    const userInputNumber = document.getElementById('user-input').value;
 
-                } else {
-                    const matchedNumber = document.getElementById('not-matched');
-                    matchedNumber.style.display = "block";
-                    chanceLeft();
+                    if (generatedNumber == '' || userInputNumber == '') {
+                        if (generatedNumber == '') {
+                            alert('Generate Pin Number First. Click "Generate Pin" Button To Generate Pin Number.')
+                        }
+                        else {
+                            alert('Enter the 4 digit code by using the Number pad.');
+                        }
+                        return;
+                    }
+                    if (generatedNumber == userInputNumber) {
+                        const matchedNumber = document.getElementById('matched');
+                        matchedNumber.style.display = "block";
+                        document.getElementById('not-matched').style.display = "none";
+
+
+                    } else {
+                        const matchedNumber = document.getElementById('not-matched');
+                        matchedNumber.style.display = "block";
+                        document.getElementById('matched').style.display = "none";
+                        chanceLeft();
+                    }
                 }
-            }
-            document.getElementById('submit-button').addEventListener('click', match);
+                document.getElementById('submit-button').addEventListener('click', match);
 
 
-            function randomPinNumber() {
-                const randomDigit = document.getElementById('generate-pin').addEventListener('click', randomNumber());
-                removeMessage();
-            }
-
-            function removeMessage() {
-                document.getElementById('matched').style.display = "none";;
-                document.getElementById('not-matched').style.display = "none";
-                document.getElementById('user-input').value = "";
-                document.getElementById('count-number').innerText = 3;
-            }
-
-
-            // Random 4 digit generator
-            function randomNumber() {
-                const number = Math.floor(1000 + Math.random() * 9000);
-                document.getElementById('generated-pin-number').value = number;
-
-            }
-
-            // insert number
-            function insert(number) {
-                document.getElementById('user-input').value = document.getElementById('user-input').value + number;
-            }
-
-            // clear all
-            function clearAll() {
-                document.getElementById('user-input').value = "";
-            }
-
-            // remove last digit 
-            function backspace() {
-                var number = document.getElementById('user-input').value;
-                number = number.substring(0, number.length - 1);
-                document.getElementById('user-input').value = number;
-            }
-
-            function chanceLeft() {
-                var counter = document.getElementById('count-number').innerText;
-                var count = parseInt(counter);
-                const generatedNumber = document.getElementById('generated-pin-number').value;
-                const userInputNumber = document.getElementById('user-input').value;
-                if (generatedNumber != userInputNumber) {
-                    document.getElementById('count-number').innerText = --counter;
+                function randomPinNumber() {
+                    const randomDigit = document.getElementById('generate-pin').addEventListener('click', randomNumber());
+                    removeMessage();
                 }
-                if (counter == 0) {
-                    document.getElementById("submit-button").disabled = true;
-                    alert('You Lost All 3 Chances. Reload The Page For Try Again.')
+
+                function removeMessage() {
+                    document.getElementById('matched').style.display = "none";;
+                    document.getElementById('not-matched').style.display = "none";
+                    document.getElementById('user-input').value = "";
+                    document.getElementById('count-number').innerText = 3;
                 }
-            }
 
 
-        </script>
+                // Random 4 digit generator
+                function randomNumber() {
+                    const number = Math.floor(1000 + Math.random() * 9000);
+                    document.getElementById('generated-pin-number').value = number;
+
+                }
+
+                // insert number
+                function insert(number) {
+                    document.getElementById('user-input').value = document.getElementById('user-input').value + number;
+                }
+
+                // clear all input numbers
+                function clearAll() {
+                    document.getElementById('user-input').value = "";
+                }
+
+                // remove last digit 
+                function backspace() {
+                    var number = document.getElementById('user-input').value;
+                    number = number.substring(0, number.length - 1);
+                    document.getElementById('user-input').value = number;
+                }
+
+                function chanceLeft() {
+                    var counter = document.getElementById('count-number').innerText;
+                    var count = parseInt(counter);
+                    const generatedNumber = document.getElementById('generated-pin-number').value;
+                    const userInputNumber = document.getElementById('user-input').value;
+                    if (generatedNumber != userInputNumber) {
+                        document.getElementById('count-number').innerText = --counter;
+                    }
+                    if (counter == 0) {
+                        document.getElementById("submit-button").disabled = true;
+                        alert('You Lost All 3 Chances. Reload The Page For Try Again.')
+                    }
+                }
+
+
+            </script>
 </body>
 
 </html>
