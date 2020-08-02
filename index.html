@@ -1,3 +1,5 @@
+<!-- Taib Islam Dipu, July 2020-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +17,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="pin-generator half-width">
-                    <input id="generated-pin-number" class="form-control" type="text" placeholder="Click Generate Pin">
+                    <input id="generated-pin-number" class="form-control" type="text" placeholder="Pin Number">
                     <button id="generate-pin" class="generate-btn btn" onclick="randomPinNumber()">Generate Pin</button>
                 </div>
             </div>
@@ -47,9 +49,8 @@
                                 </div>
                                 <div>
                                     <button id="submit-button" type="submit" class="submit-btn btn">Submit</button>
-                                    <p class="action-left" title="You can try only 3 times"><span
-                                            id="count-number">3</span>
-                                        try left</p>
+                                    <p class="action-left" title="You can try only 3 times">
+                                        <span id="count-number">3</span>try left</p>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +73,7 @@
                             alert('Generate Pin Number First. Click "Generate Pin" Button To Generate Pin Number.')
                         }
                         else {
-                            alert('Enter the 4 digit code by using the Number pad.');
+                            alert('Enter the 4 digit code by using the Number Pad.');
                         }
                         return;
                     }
@@ -105,11 +106,11 @@
                 }
 
 
-                // Random 4 digit generator
+                // random 4 digit generator
                 function randomNumber() {
                     const number = Math.floor(1000 + Math.random() * 9000);
                     document.getElementById('generated-pin-number').value = number;
-
+                    document.getElementById("submit-button").disabled = false;
                 }
 
                 // insert number
@@ -140,6 +141,7 @@
                     if (counter == 0) {
                         document.getElementById("submit-button").disabled = true;
                         alert('You Lost All 3 Chances. Reload The Page For Try Again.')
+                        document.getElementById('count-number').innerText = "Sorry no more ";
                     }
                 }
 
